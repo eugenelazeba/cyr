@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Canonical Model CYR",
+  "description": "Scheme for hotelshopping messages send between IL<->CYR",
+  "type": "object",
+  "self": {
+    "version": "1-0-0",
+    "lastUpdate": "2017-12-06"
+  },
+  "definitions": {
+    "booking": {
+      "type": "object",
+      "properties": {
+        "bookingIdentifier": {
+          "type": "object",
+          "properties": {
+            "bookingNumber": {
+              "type": "string",
+              "title": "Bookingnumber",
+              "description": "",
+              "default": "",
+              "examples": [
+                "1111111"
+              ]
+            }
+          }
+        },
+        "services": {
+          "type": "object",
+          "properties": {
+            "accommodation": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "accommodationCode": {
+                    "type": "string",
+                    "title": "Accommodationcode",
+                    "description": "",
+                    "default": "",
+                    "examples": [
+                      "13112"
+                    ]
+                  },
+                  "groupAccommodationCode": {
+                    "type": "string",
+                    "title": "Groupaccommodationcode",
+                    "description": "",
+                    "default": "",
+                    "examples": [
+                      "XXXXXX"
+                    ]
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "title": "Startdate",
+                    "description": "",
+                    "default": "",
+                    "examples": [
+                      "2017-11-05T00:00:00"
+                    ]
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "Enddate",
+                    "description": "",
+                    "default": "",
+                    "examples": [
+                      "2017-11-11T00:00:00"
+                    ]
+                  },
+                  "roomType": {
+                    "type": "string",
+                    "title": "Roomtype",
+                    "description": "",
+                    "default": "",
+                    "examples": [
+                      "B2A"
+                    ]
+                  },
+                  "brandCode": {
+                    "type": "string",
+                    "title": "Brandcode",
+                    "description": "",
+                    "default": "",
+                    "examples": [
+                      "NL"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "customer": {
+      "type": "object",
+      "properties": {
+        "customerIdentity": {
+          "type": "object",
+          "properties": {
+            "fullName": {
+              "type": "string",
+              "title": "Fullname",
+              "description": "",
+              "default": "",
+              "examples": [
+                "Henrik Persson"
+              ]
+            }
+          }
+        },
+        "email": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "title": "Address",
+                "description": "",
+                "default": "",
+                "examples": [
+                  "Henrik.persson@thomascook.se"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "booking": {
+      "$ref": "#/definitions/booking"
+    },
+    "customer": {
+      "$ref": "#/definitions/customer"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+{
+  "_source": {
+    "includes": [
+      "message","correlationId"
+    ]
+  },
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "environment": "integration"
+          }
+        },
+
+        {
+          "match": {
+            "entityId": "E3E1805932"
+          }
+        },
+        {
+          "match": {
+            "logLevel": "INFO"
+          }
+        },
+        {
+          "match": {
+            "application": "crm-import-roomtype-microservice"
+          }
+        },
+
+        {
+          "match_phrase_prefix": {
+            "message": "Successfully processed booking"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "timestamp": {
+              "gte": "now-5m",
+              "lte": "now"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,488 @@
+{
+  "self": {
+    "version": "2-0-0",
+    "createdBy": "Kim De Rijbel",
+    "changedBy": "Kim De Rijbel",
+    "lastUpdated": "2018-08-27",
+    "changes": [ "added permissions", "added segment", "added transport", "added fullName (passenger)", "added numberOfAdults/Children/Infants", "added bookingSystemCode" ]
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Canonical Model schema for CYR messages send between GIL<->CYR",
+  "type": "object",
+  "definitions": {
+    "booking": {
+      "$id": "/definitions/booking",
+      "type": "object",
+      "properties": {
+        "bookingIdentifier": {
+          "$id": "/definitions/booking/properties/bookingIdentifier",
+          "type": "object",
+          "properties": {
+            "bookingNumber": {
+              "$id": "/definitions/booking/properties/bookingIdentifier/properties/bookingNumber",
+              "description": "Holiday booking reference taken from the selling system",
+              "type": "string",
+              "examples": [ "12345678" ]
+            },
+            "bookingSystemCode": {
+              "$id": "/definitions/booking/properties/bookingIdentifier/properties/bookingSystemCode",
+              "description": "Code that identifies booking system",
+              "type": "string",
+              "examples": [ "1", "2" ]
+            }
+          },
+          "required": [ "bookingNumber" ]
+        },
+        "bookingGeneral": {
+          "$id": "/definitions/booking/properties/bookingGeneral",
+          "type": "object",
+          "properties": {
+            "numberOfAdults": {
+              "$id": "/definitions/booking/properties/bookingGeneral/properties/numberOfAdults",
+              "description": "Count of adults in the booking",
+              "type": "integer",
+              "examples": [ 0, 1, 2 ]
+            },
+            "numberOfChildren": {
+              "$id": "/definitions/booking/properties/bookingGeneral/properties/numberOfChildren",
+              "description": "Count of children in the booking",
+              "type": "integer",
+              "examples": [ 0, 1, 2 ]
+            },
+            "numberOfInfants": {
+              "$id": "/definitions/booking/properties/bookingGeneral/properties/numberOfInfants",
+              "description": "Count of infants in the booking",
+              "type": "integer",
+              "examples": [ 0, 1, 2 ]
+            }
+          }
+        },
+        "travelParticipant": {
+          "$id": "/definitions/booking/properties/travelParticipant",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fullName": {
+                "$id": "/definitions/booking/properties/travelParticipant/properties/fullName",
+                "description": "Full name of each passenger",
+                "type": "string",
+                "examples": [ "Full Name" ]
+              }
+            }
+          }
+        },
+        "services": {
+          "$id": "/definitions/booking/properties/services",
+          "type": "object",
+          "properties": {
+            "accommodation": {
+              "$id": "/definitions/booking/properties/services/properties/accommodation",
+              "type": "array",
+              "items": {
+                "$id": "/definitions/booking/properties/services/properties/accommodation/items",
+                "type": "object",
+                "properties": {
+                  "accommodationID": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/accommodationID",
+                    "description": "Key to identify accommodation within this booking",
+                    "type": "string",
+                    "examples": [ "100" ]
+                  },
+                  "accommodationCode": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/accommodationCode",
+                    "description": "Hotel code by market - taken from TOPICS/EKMS/VITS  ",
+                    "type": "string",
+                    "examples": [ "C30H45" ]
+                  },
+                  "groupAccommodationCode": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/groupAccommodationCode",
+                    "description": "Master code for the hotel  - same throughout the group",
+                    "type": "string",
+                    "examples": [ "9apbrog" ]
+                  },
+                  "accommodationDescription": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/accommodationDescription",
+                    "description": "Name of hotel",
+                    "type": "string",
+                    "examples": [ "smartline Teide Mar" ]
+                  },
+                  "startDate": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/startDate",
+                    "description": "Customer arrival at hotel",
+                    "type": "string",
+                    "pattern": "((^$)|^\\d{4}-\\d{2}-\\d{2}$)",
+                    "examples": [ "", "2017-12-04" ]
+                  },
+                  "endDate": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/endDate",
+                    "description": "Customer departs from hotel",
+                    "type": "string",
+                    "pattern": "((^$)|^\\d{4}-\\d{2}-\\d{2}$)",
+                    "examples": [ "", "2017-12-24" ]
+                  },
+                  "roomType": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/roomType",
+                    "description": "Room category booked",
+                    "type": "string",
+                    "examples": [ "ROOM01" ]
+                  },
+                  "roomClaimedFlag": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/roomClaimedFlag",
+                    "description": "Yes/No if customer pre booked the room",
+                    "type": "boolean",
+                    "default": false,
+                    "examples": [ true, false ]
+                  },
+                  "roomNumber": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/roomNumber",
+                    "description": "The room number of the room pre booked",
+                    "type": "string",
+                    "examples": [ "A123" ]
+                  },
+                  "brandCode": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/brandCode",
+                    "description": "Source market of the customer",
+                    "type": "string",
+                    "pattern": "((^$)|^[A-Z]{2}$)",
+                    "examples": [ "", "UT" ]
+                  },
+                  "duration": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/duration",
+                    "description": "Number of nights at the hotel",
+                    "type": "integer",
+                    "default": 0,
+                    "examples": [ 7 ]
+                  },
+                  "moneyID": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/moneyID",
+                    "type": "array",
+                    "items": {
+                      "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/moneyID/items",
+                      "description": "Key to link to money object",
+                      "type": "string",
+                      "examples": [ "1" ]
+                    }
+                  },
+                  "upsellID": {
+                    "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/upsellID",
+                    "type": "array",
+                    "items": {
+                      "$id": "/definitions/booking/properties/services/properties/accommodation/items/properties/upsellID/items",
+                      "description": "Key to link to upsell object",
+                      "type": "string",
+                      "examples": [ "1" ]
+                    }
+                  }
+                }
+              }
+            },
+            "transport": {
+              "$id": "/definitions/booking/properties/services/properties/transport",
+              "type": "array",
+              "items": {
+                "$id": "/definitions/booking/properties/services/properties/transport/items",
+                "type": "object",
+                "properties": {
+                  "transportCode": {
+                    "$id": "/definitions/booking/properties/services/properties/transport/items/properties/transportCode",
+                    "description": "Code that identifies the flight (carrier code + flight number)",
+                    "type": "string",
+                    "examples": [ "AB123" ]
+                  },
+                  "startDate": {
+                    "$id": "/definitions/booking/properties/services/properties/transport/items/properties/startDate",
+                    "description": "departure time",
+                    "type": "string",
+                    "pattern": "(^$)|(^\\d{4}-\\d{2}-\\d{2}$|^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z?$|([+-]\\d{2}:00$)))",
+                    "examples": [ "", "2017-12-03", "2017-12-03T10:15:30", "2017-12-03T10:15:30Z", "2017-12-03T10:15:30+01:00", "2017-12-03T10:15:30-01:00" ]
+                  },
+                  "endDate": {
+                    "$id": "/definitions/booking/properties/services/properties/transport/items/properties/endDate",
+                    "description": "arrival time",
+                    "type": "string",
+                    "pattern": "(^$)|(^\\d{4}-\\d{2}-\\d{2}$|^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z?$|([+-]\\d{2}:00$)))",
+                    "examples": [ "", "2017-12-03", "2017-12-03T10:15:30", "2017-12-03T10:15:30Z", "2017-12-03T10:15:30+01:00", "2017-12-03T10:15:30-01:00" ]
+                  },
+                  "transferType": {
+                    "$id": "/definitions/booking/properties/services/properties/transport/items/properties/transferType",
+                    "description": "Identifying direction of transport",
+                    "type": "string",
+                    "enum": [ "", "Inbound", "Outbound", "Transfer between hotels" ]
+                  }
+                }
+              }
+            },
+            "extraService": {
+              "$id": "/definitions/booking/properties/services/properties/extraService",
+              "type": "array",
+              "items": {
+                "$id": "/definitions/booking/properties/services/properties/extraService/items",
+                "type": "object",
+                "properties": {
+                  "createdOn": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/createdOn",
+                    "description": "Timestamp when service got created",
+                    "type": "string",
+                    "pattern": "(^$)|(^\\d{4}-\\d{2}-\\d{2}$|^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z?$|([+-]\\d{2}:00$)))",
+                    "examples": [ "", "2017-12-03", "2017-12-03T10:15:30", "2017-12-03T10:15:30Z", "2017-12-03T10:15:30+01:00", "2017-12-03T10:15:30-01:00" ]
+                  },
+                  "modifiedOn": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/modifiedOn",
+                    "description": "Timestamp when service got modified",
+                    "type": "string",
+                    "pattern": "(^$)|(^\\d{4}-\\d{2}-\\d{2}$|^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z?$|([+-]\\d{2}:00$)))",
+                    "examples": [ "", "2017-12-03", "2017-12-03T10:15:30", "2017-12-03T10:15:30Z", "2017-12-03T10:15:30+01:00", "2017-12-03T10:15:30-01:00" ]
+                  },
+                  "extraServiceCode": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/extraServiceCode",
+                    "description": "Code assigned to identify the service booked",
+                    "type": "string",
+                    "examples": [ "CYR1" ]
+                  },
+                  "extraServiceDescription": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/extraServiceDescription",
+                    "description": "Description of the service booked",
+                    "type": "string",
+                    "enum": [ "Sunbed", "Early Check-in", "Room Choice", "" ]
+                  },
+                  "externalReference": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/externalReference",
+                    "description": "Reference given by Supershift for the item purchased",
+                    "type": "string",
+                    "examples": [ "20008901" ]
+                  },
+                  "externalVersion": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/externalVersion",
+                    "description": "Version number given by Supershift for this service line",
+                    "type": "string",
+                    "examples": [ "1", "2" ]
+                  },
+                  "status": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/status",
+                    "description": "status to show the booking or service has been cancelled or not",
+                    "type": "string",
+                    "enum": [ "Booked", "Cancelled", "Amended", "" ]
+                  },
+                  "moneyID": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/moneyID",
+                    "type": "array",
+                    "items": {
+                      "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/moneyID/items",
+                      "description": "Key to link to money object",
+                      "type": "string",
+                      "examples": [ "1" ]
+                    }
+                  },
+                  "upsellID": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/upsellID",
+                    "type": "array",
+                    "items": {
+                      "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/upsellID/items",
+                      "description": "Key to link to upsell object",
+                      "type": "string",
+                      "default": 0,
+                      "examples": [ 1 ]
+                    }
+                  },
+                  "accommodationID": {
+                    "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/accommodationID",
+                    "type": "array",
+                    "items": {
+                      "$id": "/definitions/booking/properties/services/properties/extraService/items/properties/accommodationID/items",
+                      "description": "Unique Key to link accommodation to this service",
+                      "type": "string",
+                      "examples": [ "100" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "money": {
+          "$id": "/definitions/booking/properties/money",
+          "type": "array",
+          "items": {
+            "$id": "/definitions/booking/properties/money/items",
+            "type": "object",
+            "properties": {
+              "moneyID": {
+                "$id": "/definitions/booking/properties/money/items/properties/moneyID",
+                "description": "Key to identify money object",
+                "type": "string",
+                "examples": [ "1" ]
+              },
+              "moneyDescription": {
+                "$id": "/definitions/booking/properties/money/items/properties/moneyDescription",
+                "description": "Description of the payment",
+                "type": "string",
+                "examples": [ "" ]
+              },
+              "reference": {
+                "$id": "/definitions/booking/properties/money/items/properties/reference",
+                "description": "Reference of the amount (e.g. payment) ",
+                "type": "string",
+                "examples": [ "333-55558-222" ]
+              },
+              "amount": {
+                "$id": "/definitions/booking/properties/money/items/properties/amount",
+                "description": "Amount",
+                "type": "number",
+                "default": 0,
+                "examples": [ 30.15 ]
+              },
+              "currency": {
+                "$id": "/definitions/booking/properties/money/items/properties/currency",
+                "description": "Currency valid for the amount",
+                "type": "string",
+                "pattern": "((^$)|^[A-Z]{3}$)",
+                "examples": [ "", "EUR" ]
+              },
+              "moneyType": {
+                "$id": "/definitions/booking/properties/money/items/properties/moneyType",
+                "description": "Category of the amount",
+                "type": "string",
+                "enum": [ "Net Price", "Cost", "Paid by Customer", "" ]
+              },
+              "paymentMethod": {
+                "$id": "/definitions/booking/properties/money/items/properties/paymentMethod",
+                "description": "Payment method used to pay this amount",
+                "type": "string",
+                "examples": [ "Debet" ]
+              }
+            }
+          }
+        },
+        "upsell": {
+          "$id": "/definitions/booking/properties/upsell",
+          "type": "array",
+          "items": {
+            "$id": "/definitions/booking/properties/upsell/items",
+            "type": "object",
+            "properties": {
+              "upsellID": {
+                "$id": "/definitions/booking/properties/upsell/items/properties/upsellID",
+                "description": "Key to identifythis upsell object",
+                "type": "string",
+                "default": 0,
+                "examples": [ 1 ]
+              },
+              "conversionFlag": {
+                "$id": "/definitions/booking/properties/upsell/items/properties/conversionFlag",
+                "description": "Yes/No if the Hotelshoppen (or other service) used",
+                "type": "boolean",
+                "default": false,
+                "examples": [ true, false ]
+              },
+              "optOutFlag": {
+                "$id": "/definitions/booking/properties/upsell/items/properties/optOutFlag",
+                "description": "Customer opt out of future CYR e-mails",
+                "type": "boolean",
+                "default": false,
+                "examples": [ true, false ]
+              },
+              "mailedFlag": {
+                "$id": "/definitions/booking/properties/upsell/items/properties/mailedFlag",
+                "description": "Yes/No whether mailed",
+                "type": "boolean",
+                "default": false,
+                "examples": [ true, false ]
+              },
+              "usedLinkFlag": {
+                "$id": "/definitions/booking/properties/upsell/items/properties/usedLinkFlag",
+                "description": "Record if customer clicked/opened the link",
+                "type": "boolean",
+                "default": false,
+                "examples": [ true, false ]
+              },
+              "dateMailed": {
+                "$id": "/definitions/booking/properties/upsell/items/properties/dateMailed",
+                "description": "If mailed then date email sent to the customer",
+                "type": "string",
+                "pattern": "((^$)|^\\d{4}-\\d{2}-\\d{2}$)",
+                "examples": [ "", "2017-12-24" ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "customer": {
+      "$id": "/definitions/customer",
+      "type": "object",
+      "properties": {
+        "customerIdentifier": {
+          "$id": "/definitions/customer/properties/customerIdentifier",
+          "type": "object",
+          "properties": {
+            "createdOn": {
+              "$id": "/definitions/customer/properties/customerIdentifier/properties/createdOn",
+              "description": "Date when customer is entered in CYR system",
+              "type": "string",
+              "pattern": "((^$)|^\\d{4}-\\d{2}-\\d{2}$)",
+              "examples": [ "", "2017-12-24" ]
+            }
+          }
+        },
+        "customerIdentity": {
+          "$id": "/definitions/customer/properties/customerIdentity",
+          "type": "object",
+          "properties": {
+            "fullName": {
+              "$id": "/definitions/customer/properties/customerIdentity/properties/fullName",
+              "description": "Lead customer on booking",
+              "type": "string",
+              "examples": [ "Name Lastname" ]
+            }
+          }
+        },
+        "additional": {
+          "$id": "/definitions/customer/properties/additional",
+          "type": "object",
+          "properties": {
+            "segment": {
+              "$id": "/definitions/customer/properties/additional/properties/segment",
+              "type": "string"
+            }
+          }
+        },
+        "email": {
+          "$id": "/definitions/customer/properties/email",
+          "type": "array",
+          "items": {
+            "$id": "/definitions/customer/properties/email/items",
+            "type": "object",
+            "properties": {
+              "address": {
+                "$id": "/definitions/customer/properties/email/items/properties/address",
+                "description": "customer email address",
+                "type": "string",
+                "examples": [ "a@googlemail.com" ]
+              }
+            }
+          }
+        },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "doNotContactInd": {
+              "$id": "/definitions/customer/properties/permissions/properties/doNotContactInd",
+              "description": "opt out of the customer for all types of communication",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "booking": {
+      "$ref": "#/definitions/booking"
+    },
+    "customer": {
+      "$ref": "#/definitions/customer"
+    }
+  },
+  "additionalProperties": false
+}
